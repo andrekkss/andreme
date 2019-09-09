@@ -1,3 +1,3 @@
-[![image](image "image")](https://github.com/andrekkss/andreme/blob/master/media/andreme.PNG "image")
+![andre](media/andreme.png)  
 
 :D
