@@ -1,3 +1,3 @@
-![andre](media/andreme.png)  
+![andre](media/andreme.PNG)  
 
 :D
