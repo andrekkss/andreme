@@ -1,23 +1,16 @@
-import React from 'react';
-import Layout from '../components/Layout';
-import Landing from '../sections/Landing';
-import About from '../sections/About';
-import Projects from '../sections/Projects';
-// import Writing from '../sections/Writing';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Knowledge  from '../sections/Knowledges';
+import React from "react"
+import "tailwindcss/dist/base.min.css"
+import Button from '../components/button/button';
+import Container from '../components/container/container';
+import Header from '../components/header/header';
 
-const IndexPage = () => (
-  <Layout>
-    <Header />
-    <Landing />
-    <About />
-    <Knowledge />
-    <Projects />
-    {/* <Writing /> */}
-    <Footer />
-  </Layout>
-);
-
-export default IndexPage;
+export default function Home() {
+  return (
+    <div style={{backgroundColor: "#1B262C"}}>
+      <Header/>
+      <Container>
+        <Button>Hello world!</Button> 
+      </Container>
+    </div>
+  );
+}
