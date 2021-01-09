@@ -1,47 +1,55 @@
-import React from 'react';
-import { Heading, Box } from 'rebass';
-import Layout from '../components/Layout';
-import Section from '../components/Section';
-import Triangle from '../components/Triangle';
+import React from "react"
+import styled from "styled-components"
 
-const Background = () => (
-  <div>
-    <Triangle
-      color="backgroundDark"
-      height={['35vh', '80vh']}
-      width={['95vw', '60vw']}
-    />
+import GlobalStateProvider from "../context/provider"
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import ContentWrapper from "../styles/contentWrapper"
 
-    <Triangle
-      color="primary"
-      height={['25vh', '35vh']}
-      width={['75vw', '60vw']}
-      invertX
-    />
+const StyledSection = styled.section`
+  width: 100%;
+  max-width: 62.5rem;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  height: auto;
+  background: ${({ theme }) => theme.colors.background};
+  h1 {
+    font-size: 1.5rem;
+  }
+`
 
-    <Triangle
-      color="secondaryLight"
-      height={['10vh', '20vh']}
-      width={['50vw', '50vw']}
-      invertX
-      invertY
-    />
-  </div>
-);
+const StyledContentWrapper = styled(ContentWrapper)`
+  && {
+    width: 100%;
+    max-width: 36rem;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+`
 
-const NotFoundPage = () => (
-  <Layout>
-    <Section.Container id="404" Background={Background}>
-      <Box width={[320, 400, 600]} m="auto">
-        <Heading color="primaryDark" fontSize={['9rem', '13rem', '16rem']}>
-          404
-        </Heading>
-        <Heading color="secondary" fontSize={['4rem', '5rem', '6rem']}>
-          {"There isn't anything here"}
-        </Heading>
-      </Box>
-    </Section.Container>
-  </Layout>
-);
+const NotFoundPage = () => {
+  const globalState = {
+    isIntroDone: true,
+    darkMode: false,
+  }
 
-export default NotFoundPage;
+  return (
+    <GlobalStateProvider initialState={globalState}>
+      <Layout>
+        <SEO
+          title="404: Not found"
+          meta={[{ name: "robots", content: "noindex" }]}
+        />
+        <StyledSection>
+          <StyledContentWrapper>
+            <h1 data-testid="heading">NOT FOUND</h1>
+            <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+          </StyledContentWrapper>
+        </StyledSection>
+      </Layout>
+    </GlobalStateProvider>
+  )
+}
+
+export default NotFoundPage
