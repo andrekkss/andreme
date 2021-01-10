@@ -24,6 +24,7 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-offline`,
     `gatsby-plugin-netlify`,
+    'gatsby-plugin-antd',
     // {
     //   resolve: `gatsby-plugin-gtag`,
     //   options: {

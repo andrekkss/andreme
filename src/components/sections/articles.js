@@ -10,6 +10,7 @@ import { parseDate } from "../../utils"
 import { github_posts, shownArticles } from "../../../config"
 import { lightTheme, darkTheme } from "../../styles/theme"
 import LinkAnimated from "../linkAnimated"
+import PropTypes from "prop-types"
 
 const StyledSection = motion.custom(styled.section`
   width: 100%;
@@ -112,15 +113,18 @@ const StyledContentWrapper = styled(ContentWrapper)`
         color: ${({ theme }) => theme.colors.subtext};
         letter-spacing: +0.5px;
       }
+      h4 {
+        color: rgba(255,255,255,0.87);
+      }
     }
   }
 `
 
-const Articles = () => {
+const Articles = ({ content: articles }) => {
   const MAX_ARTICLES = shownArticles
 
   const { isIntroDone, darkMode } = useContext(Context).state
-  const [articles, setArticles] = useState()
+  const [visibility, setVisibility] = useState(false)
   const articlesControls = useAnimation()
 
   // Load and display articles after the splashScreen sequence is done
@@ -132,12 +136,7 @@ const Articles = () => {
           y: 0,
           transition: { delay: 1 },
         })
-        fetch(github_posts, { headers: { Accept: "application/json" } })
-          .then(res => res.json())
-          .then(data => data.items.filter(item => item.categories.length > 0))
-          .then(newArticles => newArticles.slice(0, MAX_ARTICLES))
-          .then(articles => setArticles(articles))
-          .catch(error => console.log(error))
+        setVisibility(true)
       }
     }
     loadArticles()
@@ -151,30 +150,34 @@ const Articles = () => {
     >
       <StyledContentWrapper>
         <h3 className="section-title">
-          <LinkAnimated selected>Latest Articles</LinkAnimated>
+          <LinkAnimated selected>Latest Studies</LinkAnimated>
         </h3>
         <div className="articles">
-          {articles
-            ? articles.map(item => (
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                  title={item.title}
-                  aria-label={item.link}
-                  key={item.link}
-                >
-                  <div className="card">
-                    <span className="category">
-                      <Underlining color="tertiary" hoverColor="secondary">
-                        {item.categories[2]}
-                      </Underlining>
-                    </span>
-                    <h4 className="title">{item.title}</h4>
-                    <span className="date">{parseDate(item.pubDate)}</span>
-                  </div>
-                </a>
-              ))
+          {visibility
+            ? articles.map(item => {
+                const { frontmatter } = item.node
+                return (
+                  <a
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                    title={frontmatter.title}
+                    aria-label={frontmatter.link}
+                    key={frontmatter.link}
+                  >
+                    <div className="card">
+                      <span className="category">
+                        <Underlining color="tertiary" hoverColor="secondary">
+                          {frontmatter.title}
+                        </Underlining>
+                      </span>
+                      <h4 className="title">{frontmatter.description}</h4>
+                      <span className="date">
+                        {parseDate(frontmatter.createdAt)}
+                      </span>
+                    </div>
+                  </a>
+                )
+              })
             : [...Array(MAX_ARTICLES <= 3 ? MAX_ARTICLES : 3)].map((i, key) => (
                 <div className="card" key={key}>
                   <SkeletonLoader
@@ -210,6 +213,17 @@ const Articles = () => {
       </StyledContentWrapper>
     </StyledSection>
   )
+}
+
+Articles.propTypes = {
+  content: PropTypes.arrayOf(
+    PropTypes.shape({
+      node: PropTypes.shape({
+        body: PropTypes.string.isRequired,
+        frontmatter: PropTypes.object.isRequired,
+      }).isRequired,
+    }).isRequired
+  ).isRequired,
 }
 
 export default Articles

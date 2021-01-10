@@ -72,12 +72,12 @@ module.exports = {
         url: "/#about",
       },
       {
-        name: "Articles",
+        name: "Studies",
         url: "/#articles",
       },
       {
-        name: "Features",
-        url: "/#projects",
+        name: "Interests",
+        url: "/#interests",
       },
     ],
     button: {

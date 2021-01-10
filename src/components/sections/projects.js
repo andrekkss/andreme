@@ -13,12 +13,13 @@ import Underlining from "../../styles/underlining"
 import Icon from "../../components/icons"
 import { lightTheme, darkTheme } from "../../styles/theme"
 import LinkAnimated from "../linkAnimated"
+import Skills from "./skills"
 
 const StyledSection = styled.section`
   width: 100%;
   height: auto;
   background: ${({ theme }) => theme.colors.background};
-  margin-top: 6rem;
+  margin-top: 2rem;
   .cta-btn {
     display: block;
     text-align: center;
@@ -42,6 +43,9 @@ const StyledContentWrapper = styled(ContentWrapper)`
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       padding-right: 2.5rem;
       padding-left: 2.5rem;
+    }
+    .skills {
+      margin-bottom: 4rem;
     }
     .section-title {
       padding-right: 2.5rem;
@@ -262,6 +266,9 @@ const Projects = ({ content }) => {
           variants={tVariants}
           animate={tOnScreen ? "visible" : "hidden"}
         >
+          <div className="skills"> 
+            <Skills />
+          </div>
           <h3 className="section-title">
             <LinkAnimated selected>
               {sectionDetails.frontmatter.title}

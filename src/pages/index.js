@@ -22,6 +22,8 @@ const IndexPage = ({ data }) => {
     darkMode: true,
   }
 
+  console.log(data)
+
   return (
     <GlobalStateProvider initialState={globalState}>
       <Layout>
@@ -34,7 +36,7 @@ const IndexPage = ({ data }) => {
         />
         <Hero content={data.hero.edges} />
         <About content={data.about.edges} />
-        <Articles />
+        <Articles content={data.articles.edges} />
         <Interests content={data.interests.edges} />
         <Projects content={data.projects.edges} />
         <Contact content={data.contact.edges} />
@@ -148,6 +150,25 @@ export const pageQuery = graphql`
             }
             tags
             position
+          }
+        }
+      }
+    }
+    articles: allMdx(
+      filter: {
+        fileAbsolutePath: { regex: "/index/articles/" }
+        frontmatter: { visible: { eq: true } }
+      }
+      sort: { fields: [frontmatter___position], order: ASC }
+    ) {
+      edges {
+        node {
+          body
+          frontmatter {
+            title
+            description
+            createdAt
+            link
           }
         }
       }
